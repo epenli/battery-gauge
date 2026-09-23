@@ -35,7 +35,7 @@ jobs:
             printf '%s' "$PASSWORD" > "$RUNNER_TEMP/battery-signing.password"
             echo "SIGNING_KEYSTORE=$RUNNER_TEMP/battery-signing.p12" >> "$GITHUB_ENV"
             echo "SIGNING_PASSWORD_FILE=$RUNNER_TEMP/battery-signing.password" >> "$GITHUB_ENV"
-          elif [[ "$GITHUB_REF" == refs/tags/* ]]; then
+          else
             echo 'Configure ANDROID_KEYSTORE_BASE64 and ANDROID_KEYSTORE_PASSWORD before releasing.' >&2
             exit 1
           fi
@@ -64,7 +64,7 @@ jobs:
         if: always()
         run: rm -f "$RUNNER_TEMP/battery-signing.p12" "$RUNNER_TEMP/battery-signing.password"
   release:
-    if: startsWith(github.ref, 'refs/tags/')
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/'))
     needs: build
     runs-on: ubuntu-24.04
     permissions:
@@ -78,12 +78,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: ${{ github.ref_name }}
+          TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('build-{0}', github.run_number) }}
           COMMIT: ${{ github.sha }}
         run: |
           if gh release view "$TAG" >/dev/null 2>&1; then
             echo 'Release already exists; preserving its assets.'
           else
-            gh release create "$TAG" dist/* --verify-tag --target "$COMMIT" --title "С��﮵��ص��� $TAG" --generate-notes --prerelease
+            gh release create "$TAG" dist/* --target "$COMMIT" --title "小哈锂电电池电量 $TAG" --generate-notes --prerelease
           fi
-

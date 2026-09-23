@@ -22,3 +22,5 @@ Android 9 及以上；目前安装测试设备为一加 6 / Android 10。Android
 正式分发的签名保存在仓库 Actions Secrets：ANDROID_KEYSTORE_BASE64（PKCS12 密钥的 Base64）和 ANDROID_KEYSTORE_PASSWORD（密码）。应使用首次安装时的原密钥，以保持更新兼容；不要提交密钥文件。版本标签构建缺少签名配置时会停止，不会发布随机签名 APK。普通构建缺少 Secrets 或外部 PR 使用临时签名，只供测试，不能保证覆盖安装。
 
 CI 使用 JDK 17、Android SDK Platform 35 和 Build Tools 35.0.0。也支持设置 JAVA_HOME、ANDROID_HOME 后在本地运行 python build.py，原 Windows 便携工具目录布局仍可使用。
+
+主分支自动发布：main 推送或在 main 手动运行成功后，会创建 build-运行编号 的预发布 Release，附带 APK 与 SHA256SUMS.txt。原 APK 签名已配置到 Actions Secrets，主分支和版本标签构建要求签名齐全；PR 仅生成临时签名测试产物，不发布 Release。
