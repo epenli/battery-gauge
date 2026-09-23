@@ -21,7 +21,7 @@ jobs:
           distribution: temurin
           java-version: '17'
       - name: Install Android SDK components
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+        run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0"'
       - name: Restore release signing identity
         if: github.event_name != 'pull_request'
         env:
@@ -84,5 +84,6 @@ jobs:
           if gh release view "$TAG" >/dev/null 2>&1; then
             echo 'Release already exists; preserving its assets.'
           else
-            gh release create "$TAG" dist/* --verify-tag --target "$COMMIT" --title "小哈锂电电池电量 $TAG" --generate-notes --prerelease
+            gh release create "$TAG" dist/* --verify-tag --target "$COMMIT" --title "С��﮵��ص��� $TAG" --generate-notes --prerelease
           fi
+
