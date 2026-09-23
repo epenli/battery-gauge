@@ -1,2 +1,9 @@
-# battery-gauge
-Android BLE battery gauge for HBB SOC advertisements. Local, read-only battery monitoring.
+# 电池电量验证版 0.1
+
+通过前台 BLE 扫描，解析实测名称格式 HBB<数字编号>SOC<三位电量>。不连接电池，不发送控制命令，不申请网络权限。当前默认电池为本次实测设备，也可在应用内选择其他符合格式的附近电池。
+
+Android 9 及以上；目前安装测试设备为一加 6 / Android 10。Android 10 需要前台定位权限及开启定位服务才能扫描 BLE；Android 12 及以上使用附近设备权限，尚未实机验证。离开应用停止扫描；超过 15 秒未收到目标广播时标记为上次读数。只验证过 33% 样本，其他电量与不同型号兼容性仍需实测。
+
+本地构建：在相邻 battery-app-tools 目录准备 Temurin JDK 17、官方 Android SDK Platform 35 与 Build Tools 35.0.0，分别置于 jdk、platform、build-tools 下，运行 python build.py。签名密钥首次构建自动生成并保留在本地；源代码包不包含签名密钥。更新现有安装需使用原密钥。
+
+验证：BatteryNameTest 覆盖实测名称、非法格式、越界及 0/100 边界；APK 签名验证通过。33% 广播样本由 nRF Connect 观察并由用户核对；本应用已安装，首次权限授权后的实时扫描仍待验证。
