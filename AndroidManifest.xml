@@ -6,9 +6,10 @@
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30"/>
   <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation"/>
   <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
-  <application android:icon="@drawable/ic_launcher" android:roundIcon="@drawable/ic_launcher" android:label="鐢垫睜鐢甸噺" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:allowBackup="false" android:supportsRtl="true">
+  <application android:icon="@drawable/ic_launcher" android:roundIcon="@drawable/ic_launcher" android:label="电池电量" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:allowBackup="false" android:supportsRtl="true">
     <activity android:name=".MainActivity" android:exported="true">
       <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
     </activity>
   </application>
 </manifest>
+
