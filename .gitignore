@@ -9,3 +9,5 @@
 *.png
 __pycache__/
 *.pyc
+
+!res/**/*.png

@@ -12,3 +12,13 @@ Android 9 及以上；目前安装测试设备为一加 6 / Android 10。Android
 
 验证：BatteryNameTest 覆盖实测名称、非法格式、越界及 0/100 边界；APK 签名验证通过。33% 广播样本由 nRF Connect 观察并由用户核对；本应用已安装，首次权限授权后的实时扫描仍待验证。
 
+
+## 自动编译与 Releases
+
+推送 main、提交 Pull Request 或手动运行 Actions 会编译 APK、运行广播解析测试并校验签名；APK 和 SHA256SUMS 在 Actions 的 Artifacts 中保留 14 天。
+
+推送与 AndroidManifest.xml 中 versionName 一致的版本标签（例如 v0.1）会自动创建 GitHub 预发布 Release，附带 APK 和 SHA256SUMS。发布前同时递增 versionCode，以便覆盖更新。当前仍为验证版，因此自动发布标记为预发布。
+
+正式分发的签名保存在仓库 Actions Secrets：ANDROID_KEYSTORE_BASE64（PKCS12 密钥的 Base64）和 ANDROID_KEYSTORE_PASSWORD（密码）。应使用首次安装时的原密钥，以保持更新兼容；不要提交密钥文件。版本标签构建缺少签名配置时会停止，不会发布随机签名 APK。普通构建缺少 Secrets 或外部 PR 使用临时签名，只供测试，不能保证覆盖安装。
+
+CI 使用 JDK 17、Android SDK Platform 35 和 Build Tools 35.0.0。也支持设置 JAVA_HOME、ANDROID_HOME 后在本地运行 python build.py，原 Windows 便携工具目录布局仍可使用。
